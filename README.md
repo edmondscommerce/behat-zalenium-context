@@ -35,6 +35,8 @@ default:
 ```
 
 ## Links
+[Packagist](https://packagist.org/packages/edmondscommerce/zalenium-context)
+
 [Zalenium Github](https://github.com/zalando/zalenium)
 
 [Zalenium on the EC handbook](https://www.edmondscommerce.co.uk/handbook/Development-Tools/Testing/Zalenium/)
