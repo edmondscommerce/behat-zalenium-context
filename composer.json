@@ -1,0 +1,36 @@
+{
+    "name": "edmondscommerce/zalenium-context",
+    "description": "A Behat Context for integrating with Zalenium and allowing split videos for test scenarios",
+    "keywords": [
+        "Behat",
+        "Testing",
+        "Browser Testing",
+        "Database",
+        "Video Recording",
+        "Zalenium",
+        "Zalenium Behat"
+    ],
+    "homepage": "https://www.edmondscommerce.co.uk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "edmondscommerce",
+            "email": "info@edmondscommerce.co.uk"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "behat/behat": "~3.3",
+        "behat/mink": "~1.6",
+        "behat/mink-extension": "~2.0",
+        "behat/mink-selenium2-driver": "~1.2"
+    },
+    "suggest": {
+        "edmondscommerce/behat-framework": "Parent framework, allows easier behat setup"
+    },
+    "autoload": {
+        "psr-4": {
+            "EdmondsCommerce\\ZaleniumContext\\": "src/"
+        }
+    }
+}
