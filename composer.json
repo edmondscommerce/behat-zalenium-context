@@ -1,5 +1,5 @@
 {
-    "name": "edmondscommerce/zalenium-context",
+    "name": "edmondscommerce/behat-zalenium-context",
     "description": "A Behat Context for integrating with Zalenium and allowing split videos for test scenarios",
     "keywords": [
         "Behat",
