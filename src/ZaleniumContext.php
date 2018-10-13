@@ -81,7 +81,7 @@ class ZaleniumContext extends RawMinkContext
             try
             {
                 $driver->getWebDriverSession()->getAlert_text();
-            } catch (WebDriver\Exception\NoAlertOpenError $e)
+            } catch (\WebDriver\Exception\NoAlertOpenError $e)
             {
                 return false;
             }
