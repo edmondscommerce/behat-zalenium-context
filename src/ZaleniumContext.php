@@ -50,7 +50,7 @@ class ZaleniumContext extends RawMinkContext
      * @param string $value
      * @throws \Exception
      */
-    private function setCookie(string $name, string $value)
+    private function setCookie($name, $value)
     {
         try
         {
@@ -73,7 +73,7 @@ class ZaleniumContext extends RawMinkContext
         }
     }
 
-    private function isAlertOpen(): bool
+    private function isAlertOpen()
     {
         $driver = $this->getSession()->getDriver();
         if ($driver instanceof \Behat\Mink\Driver\Selenium2Driver)
@@ -101,7 +101,12 @@ class ZaleniumContext extends RawMinkContext
         $this->reportStep($scenarioName, $text);
     }
 
-    private function reportStep(string $testName, string $content)
+    /**
+     * @param string $testName
+     * @param string $content
+     * @throws \Exception#
+     */
+    private function reportStep($testName, $content)
     {
         $content = $testName . ': ' . $content;
         $this->setCookie('zaleniumMessage', $content);
