@@ -2,6 +2,8 @@
 
 namespace EdmondsCommerce\ZaleniumContext;
 
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\MinkExtension\Context\RawMinkContext;
 
 class ZaleniumContext extends RawMinkContext
@@ -18,6 +20,24 @@ class ZaleniumContext extends RawMinkContext
     {
         $this->currentScenario = $scope->getScenario();
     }
+
+    /**
+     * @param BeforeScenarioScope $scope
+     * @BeforeScenario
+     */
+    public function setTestName(BeforeScenarioScope $scope)
+    {
+        $driver = $this->getSession()->getDriver();
+        if ($driver instanceof Selenium2Driver)
+        {
+            $driver->setDesiredCapabilities([
+                'name' => $scope->getScenario()->getTitle(),
+            ]);
+
+            $this->getSession()->restart();
+        }
+    }
+
 
     /**
      * @BeforeScenario
