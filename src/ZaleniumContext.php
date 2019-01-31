@@ -2,7 +2,11 @@
 
 namespace EdmondsCommerce\ZaleniumContext;
 
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Mink\Driver\Selenium2Driver;
+use Behat\Mink\Mink;
 use Behat\MinkExtension\Context\RawMinkContext;
+use WebDriver\Session;
 
 class ZaleniumContext extends RawMinkContext
 {
@@ -18,6 +22,21 @@ class ZaleniumContext extends RawMinkContext
     {
         $this->currentScenario = $scope->getScenario();
     }
+
+    /**
+     * @param BeforeScenarioScope $scope
+     * @BeforeScenario
+     */
+    public function setTestName(BeforeScenarioScope $scope)
+    {
+        
+        $driver = $this->getSession()->getDriver();
+        if ($driver instanceof ZaleniumDriver)
+        {
+            $driver->setName($scope->getScenario()->getTitle());
+        }
+    }
+
 
     /**
      * @BeforeScenario
@@ -50,7 +69,7 @@ class ZaleniumContext extends RawMinkContext
      * @param string $value
      * @throws \Exception
      */
-    private function setCookie(string $name, string $value)
+    private function setCookie($name, $value)
     {
         try
         {
@@ -73,7 +92,7 @@ class ZaleniumContext extends RawMinkContext
         }
     }
 
-    private function isAlertOpen(): bool
+    private function isAlertOpen()
     {
         $driver = $this->getSession()->getDriver();
         if ($driver instanceof \Behat\Mink\Driver\Selenium2Driver)
@@ -101,7 +120,12 @@ class ZaleniumContext extends RawMinkContext
         $this->reportStep($scenarioName, $text);
     }
 
-    private function reportStep(string $testName, string $content)
+    /**
+     * @param string $testName
+     * @param string $content
+     * @throws \Exception#
+     */
+    private function reportStep($testName, $content)
     {
         $content = $testName . ': ' . $content;
         $this->setCookie('zaleniumMessage', $content);
