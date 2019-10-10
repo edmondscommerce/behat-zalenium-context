@@ -6,16 +6,33 @@ use Behat\Mink\Driver\Selenium2Driver;
 
 class ZaleniumDriver extends Selenium2Driver
 {
+    /**
+     * @var array
+     */
+    private $desiredCapabilities;
+
+    /**
+     * @var string
+     */
     private $name;
+
+    public function __construct(
+        $browserName = 'firefox',
+        $desiredCapabilities = null,
+        $wdHost = 'http://localhost:4444/wd/hub'
+    ) {
+        $this->desiredCapabilities = $desiredCapabilities;
+        parent::__construct($browserName, $desiredCapabilities, $wdHost);
+    }
 
     public function start()
     {
-        if ($this->name === null)
-        {
+        if ($this->name === null) {
             return;
         }
 
-        $this->setDesiredCapabilities(['name' => $this->name]);
+        $this->desiredCapabilities['name'] = $this->name;
+        $this->setDesiredCapabilities($this->desiredCapabilities);
         parent::start();
     }
 
@@ -28,6 +45,7 @@ class ZaleniumDriver extends Selenium2Driver
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 }
