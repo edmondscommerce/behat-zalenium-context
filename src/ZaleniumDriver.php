@@ -22,7 +22,14 @@ class ZaleniumDriver extends Selenium2Driver
         $wdHost = 'http://localhost:4444/wd/hub'
     ) {
         $this->desiredCapabilities = $desiredCapabilities;
-        parent::__construct($browserName, $desiredCapabilities, $wdHost);
+
+        // Not compatible with W3C mode
+        $this->desiredCapabilities['chromeOptions']['w3c'] = false;
+
+        // Allow insecure (self signed) SSL
+        $this->desiredCapabilities['acceptInsecureCerts'] = true;
+
+        parent::__construct($browserName, $this->desiredCapabilities, $wdHost);
     }
 
     public function start()
