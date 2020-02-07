@@ -3,6 +3,7 @@
 namespace EdmondsCommerce\ZaleniumContext;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\MinkExtension\Context\RawMinkContext;
 
 class ZaleniumContext extends RawMinkContext
@@ -85,7 +86,7 @@ class ZaleniumContext extends RawMinkContext
         try {
             // Don't continue if an alert box is open
             if (!$this->isAlertOpen()) {
-                $this->getSession()->setCookie($name, $value);
+                $this->getDriver()->sendZaleniumCookie($name, $value);
             }
         } catch (\Exception $e) {
             if ($this->isSkippableException($e)) {
@@ -94,6 +95,16 @@ class ZaleniumContext extends RawMinkContext
 
             throw $e;
         }
+    }
+
+    /**
+     * We only support the Zalenium driver, if this call fails then something has gone wrong
+     * and may indicate a configuration error.
+     * @return Selenium2Driver
+     */
+    private function getDriver(): ZaleniumDriver
+    {
+        return $this->getSession()->getDriver();
     }
 
     private function isSkippableException(\Exception $exception): bool

@@ -49,6 +49,32 @@ class ZaleniumDriver extends Selenium2Driver
         parent::stop();
     }
 
+    /**
+     * Used to send Zalenium cookies without the URL encoding
+     * If this is not used then the values will have spaces replaced with + etc
+     * This was added as I did not want to override the vanilla cookie logic
+     * This is purely for Zalenium's requirements.
+     *
+     * @param string $name
+     * @param null   $value
+     */
+    public function sendZaleniumCookie(string $name, $value = null): void
+    {
+        if (null === $value) {
+            $this->getWebDriverSession()->deleteCookie($name);
+
+            return;
+        }
+
+        $cookieArray = [
+            'name'   => $name,
+            'value'  => $value,
+            'secure' => false,
+        ];
+
+        $this->getWebDriverSession()->setCookie($cookieArray);
+    }
+
     public function setName($name)
     {
         $this->name = $name;
