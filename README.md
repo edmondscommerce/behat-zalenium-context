@@ -89,6 +89,13 @@ If you find a bug or want to help improve the extension, drop us an issue/pull r
 By default, the `ZaleniumDriver` will disable W3C mode, this is not supported by the underlying web driver.
 As a matter of convenience, this has been done in the driver itself, along with the allowance of insecure SSL.
 These options are automatically added to the desired capabilities.
+
+All test scenarios must have a name, the following will cause an exception in the Zalenium driver.
+```gherkin
+Scenario:
+Given I don't set my scenario name
+Then I see my tests are broken
+```
  
 ## Links
 [Packagist](https://packagist.org/packages/edmondscommerce/zalenium-context)

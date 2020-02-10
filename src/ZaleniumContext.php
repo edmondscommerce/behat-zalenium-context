@@ -28,20 +28,15 @@ class ZaleniumContext extends RawMinkContext
      */
     public function setTestName(BeforeScenarioScope $scope)
     {
-
         $driver = $this->getSession()->getDriver();
         if ($driver instanceof ZaleniumDriver) {
-            $driver->setName($scope->getScenario()->getTitle());
+            $name = $scope->getScenario()->getTitle();
+            if ($name === null) {
+                throw new ZaleniumException('Test name not set, aborting. You must give scenarios a name!');
+            }
+            $driver->setName($name);
         }
-    }
 
-
-    /**
-     * @BeforeScenario
-     */
-    public function maximize(\Behat\Behat\Hook\Scope\BeforeScenarioScope $scope)
-    {
-        $this->getSession()->maximizeWindow();
     }
 
     /**
@@ -100,6 +95,7 @@ class ZaleniumContext extends RawMinkContext
     /**
      * We only support the Zalenium driver, if this call fails then something has gone wrong
      * and may indicate a configuration error.
+     *
      * @return Selenium2Driver
      */
     private function getDriver(): ZaleniumDriver

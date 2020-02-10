@@ -12,6 +12,13 @@ class ZaleniumDriver extends Selenium2Driver
     private $desiredCapabilities;
 
     /**
+     * Stored cookies to be added when the browser is available
+     *
+     * @var array
+     */
+    private $cookieBuffer = [];
+
+    /**
      * @var string
      */
     private $name;
@@ -34,13 +41,19 @@ class ZaleniumDriver extends Selenium2Driver
 
     public function start()
     {
+        // Prevents the session being auto started before a test name has been set
+        // Mink automatically starts the session when trying to retrieve it so we have to defend against
+        // empty test names: \Behat\Mink\Mink::getSession
         if ($this->name === null) {
             return;
         }
 
         $this->desiredCapabilities['name'] = $this->name;
         $this->setDesiredCapabilities($this->desiredCapabilities);
+
         parent::start();
+
+        $this->maximizeWindow();
     }
 
     public function stop()
@@ -58,7 +71,7 @@ class ZaleniumDriver extends Selenium2Driver
      * @param string $name
      * @param null   $value
      */
-    public function sendZaleniumCookie(string $name, $value = null): void
+    public function sendZaleniumCookie(string $name, string $value = null): void
     {
         if (null === $value) {
             $this->getWebDriverSession()->deleteCookie($name);
@@ -75,7 +88,7 @@ class ZaleniumDriver extends Selenium2Driver
         $this->getWebDriverSession()->setCookie($cookieArray);
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
